@@ -1,12 +1,12 @@
-body {
+/* body {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
   background-color: black  ;
   color: white;
-}
+} */
 /* ----------------header -------------- */
-.header {
+/* .header {
    background: #0d0d3d;
   padding: 1rem 2rem;
   display: flex;
@@ -26,5 +26,5 @@ body {
   padding-right: 6.5rem;
   text-decoration: none;
   color: white;
-}
+} */
 /* ----------------- header------------------- */
