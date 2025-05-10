@@ -1,12 +1,87 @@
 // DashBoard.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import '@/style.css'; // Tailwind styles
 
 export default function DashBoard() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // const handleScan = () => {
+  //   // You can handle the upload logic here
+  //   alert(`File selected: ${selectedFile?.name}`);
+  //   setIsModalOpen(false);
+  // };
   return (
     <div className="min-h-screen bg-[#08191c]">
       <Header />
+      
+      <AnimatePresence>
+  {isModalOpen && (
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="bg-gradient-to-br from-[#0f1f2e] to-[#132d41] rounded-2xl p-10 w-full max-w-3xl shadow-2xl border border-blue-800 text-white relative"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
+        <h2 className="text-3xl font-extrabold mb-6 text-center flex items-center justify-center gap-2">
+          📁 Upload Repo File
+        </h2>
+
+        <div className="mb-6">
+          <label className="block mb-3 text-lg font-medium text-gray-300">
+            Choose a file to scan:
+          </label>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="block w-full text-sm text-white bg-gray-800 border border-gray-700 rounded-lg cursor-pointer focus:outline-none file:mr-4 file:py-3 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-700 hover:file:bg-blue-800 transition"
+          />
+        </div>
+
+        <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="bg-gray-700 hover:bg-gray-800 text-white px-5 py-3 rounded-lg transition font-semibold"
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-lg transition font-semibold shadow-lg"
+          >
+            🚀 Scan Now
+          </button>
+        </div>
+
+        {/* Close button on top right */}
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-3xl font-bold"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
+
+
 
       <div className="py-6 px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Summary Cards */}
@@ -65,7 +140,7 @@ export default function DashBoard() {
             <div className=" dark:bg-gray-800 shadow-lg rounded-xl p-6 transition-transform hover:scale-100 text-white dark:text-white" style={{background:"linear-gradient(145deg, #0b1f33, #081a2a)"}}>
               <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
               <div className="grid grid-cols-2 gap-4">
-                <button className="bg-blue-900 text-white rounded-md py-2 hover:bg-blue-600 transition-colors">Scan New Repo</button>
+                <button className="bg-blue-900 text-white rounded-md py-2 hover:bg-blue-600 transition-colors" onClick={() => setIsModalOpen(true)}>Scan New Repo</button>
                 <button className="bg-green-900 text-white rounded-md py-2 hover:bg-green-600 transition-colors">View Vulnerability Report</button>
                 <button className="bg-yellow-900 text-white rounded-md py-2 hover:bg-yellow-600 transition-colors">Configure AI Suggestions</button>
                 <button className="bg-purple-900 text-white rounded-md py-2 hover:bg-purple-600 transition-colors">Add to CI/CD</button>
